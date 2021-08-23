@@ -2,13 +2,13 @@
 RayManageSoft Unified Endpoint Manager provides a cloud-based solution for software deployment as well as patch management and an overview over the entire IT infrastructure.
 It is possible to automate the management and software deployment for huge parts of the infrastructure while at the same time, keep individual schedules and lists of optional and mandatory software for specific endpoints.
 
+![Screenshot](uem.png)
+
 ## Multi-tenancy
 RayManageSoft Unified Endpoint Manager can manage a multi-tenant environment, which means that it can manage multiple tenants or multiple infrastructure environments which can be hosted by different storage hosters.
 
 ## Supported storage providers
 Currently Microsoft Azure, Amazon S3, and MinIO are the storage hoster which are supported by RayManageSoft Unified Endpoint Manager.
-
-![Screenshot](uem.png)
 
 # Installation
 ## Prerequisites
@@ -95,6 +95,11 @@ After the first login please visit the Site-Administration / System Settings pag
 
 ## License Activation ##
 RayManageSoft Unified Endpoint Manager needs a valid license to run. If there is no valid license, RayManageSoft Unified Endpoint Manager will open the activation screen.
+
+# Documentation
+* [Release notes (PDF)](docs/RayManageSoft_Unified_Endpoint_Manager_2.3_Release_Notes.pdf)
+* [Installation Guide (PDF)](docs/RayManageSoft_Unified_Endpoint_Manager_2.3_Installation_Guide.pdf)
+* [User Guide (PDF)](docs/RayManageSoft_Unified_Endpoint_Manager_2.3_User_Guide.pdf)
 
 # More information
 
