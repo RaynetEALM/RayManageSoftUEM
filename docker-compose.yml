@@ -1,0 +1,30 @@
+version: "3.7"
+services:
+
+  frontend:
+      image: raynetgmbh/raymanagesoft-uem-frontend:stable-windowsservercore-ltsc2019
+      ports:
+        - "80:80"
+      restart: always
+      environment:
+      - SystemDb=Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;
+      - ResultDb=Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;
+      - BackendEndpoint=myServerAddress
+      - BackendPort=8080
+      - BackendProtocol=http
+      - DefaultHoster=MinIO
+      - MinIOEndpoint=play.min.io
+      - MinIOAccessKey=Q3AM3UQ867SPQQA43P2F
+      - MinIOSecretKey=zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
+      - MinIOSSL=true
+
+  backend:
+      image: raynetgmbh/raymanagesoft-uem-backend:stable-windowsservercore-ltsc2019
+      depends_on:
+      - frontend
+      ports:
+        - "8080:80"
+      restart: always
+      environment:
+      - SystemDb=Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;
+      - ResultDb=Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;
