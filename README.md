@@ -27,7 +27,7 @@ RayManageSoft Unified Endpoint Manager images are available on docker hub:
 * [`https://hub.docker.com/r/raynetgmbh/raymanagesoft-uem-backend`](https://hub.docker.com/r/raynetgmbh/raymanagesoft-uem-backend)
 * [`https://hub.docker.com/r/raynetgmbh/raymanagesoft-uem-frontend`](https://hub.docker.com/r/raynetgmbh/raymanagesoft-uem-frontend)
 
-You can use tags `2.3-windowsservercore-ltsc2019` (recommended) or `stable` to get the last 2.3 or the last stable version respectively. You will find the complete list of tags on the respective Docker Hub page.
+You can use tags `2.3-windowsservercore-ltsc2019` or `stable-windowsservercore-ltsc2019` to get the last 2.3 or the last stable version respectively. You will find the complete list of tags on the respective Docker Hub page.
 
 ## Environment variables
 Assuming the default setup with MinIO as a storage provider, the following environment variables are used to set-up the system:
