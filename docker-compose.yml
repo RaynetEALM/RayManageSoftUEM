@@ -1,30 +1,76 @@
 version: "3.7"
 services:
 
+  database:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    volumes:
+      - sql_data:/var/opt/mssql
+    ports:
+      - "1434:1433"
+    environment: 
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=<myPassword>
+      - MSSQL_PID=Express
+    restart: always
+    networks:
+      - app-tier
+
+  minio:
+    image: minio/minio:RELEASE.2021-01-16T02-19-44Z
+    volumes:
+      - ./storage:/container/vol
+    ports:
+     - "9000:9000"
+     - "9001:9001"
+    restart: unless-stopped
+    networks:
+      - app-tier
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: Start123
+    command: server /container/vol
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+
   frontend:
-      image: raynetgmbh/raymanagesoft-uem-frontend:stable-windowsservercore-ltsc2019
+      image: raynetgmbh/raymanagesoft-uem-frontend:stable
+      hostname: "rmsc_frontend"
+      depends_on:
+      - database
+      - minio
       ports:
-        - "80:80"
+        - "81:80"
       restart: always
-      environment:
-      - SystemDb=Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;
-      - ResultDb=Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;
-      - BackendEndpoint=myServerAddress
-      - BackendPort=8080
-      - BackendProtocol=http
-      - DefaultHoster=MinIO
-      - MinIOEndpoint=play.min.io
-      - MinIOAccessKey=Q3AM3UQ867SPQQA43P2F
-      - MinIOSecretKey=zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
-      - MinIOSSL=true
+      networks:
+        - app-tier
+      env_file:
+      - env.list
 
   backend:
-      image: raynetgmbh/raymanagesoft-uem-backend:stable-windowsservercore-ltsc2019
+      image: raynetgmbh/raymanagesoft-uem-backend:stable
+      hostname: "rmsc_backend"
       depends_on:
       - frontend
       ports:
-        - "8080:80"
+        - "8081:80"
       restart: always
-      environment:
-      - SystemDb=Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;
-      - ResultDb=Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;
+      networks:
+        - app-tier
+      env_file:
+      - env.list
+      
+networks:
+  app-tier:
+    driver: bridge
+
+volumes: 
+  sql_data:
+  storage:
