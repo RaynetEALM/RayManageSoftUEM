@@ -38,7 +38,7 @@ RayManageSoft Unified Endpoint Manager images are available on docker hub:
 * [`https://hub.docker.com/r/raynetgmbh/raymanagesoft-uem-backend`](https://hub.docker.com/r/raynetgmbh/raymanagesoft-uem-backend)
 * [`https://hub.docker.com/r/raynetgmbh/raymanagesoft-uem-frontend`](https://hub.docker.com/r/raynetgmbh/raymanagesoft-uem-frontend)
 
-You can use tags `2.4` or `stable` to get the last 2.4 or the last stable version respectively. You will find the complete list of tags on the respective Docker Hub page.
+You can use tags `latest`, `stable` or `2.5` to get the current RMS UEM 2.5. You will find the complete list of tags on the respective Docker Hub page.
 
 ### Environment variables
 
@@ -153,8 +153,8 @@ Different environment variables are required for other supported set-up types (s
 
 ### Default docker environment file
 
-     ConnectionStrings__System="myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;"
-     ConnectionStrings__ResultDatabase="myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;"
+     ConnectionStrings__System="Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;"
+     ConnectionStrings__ResultDatabase="Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;"
      
      BackendConfig__Endpoint="myServerAddress"
      BackendConfig__Port="8081"
@@ -167,7 +167,7 @@ Different environment variables are required for other supported set-up types (s
      StorageConfig__MinIO__SecretKey="Start123"
      StorageConfig__MinIO__SSL="false"
      
-     Integration__PackageStore__Endpoint="http://packages.packagestore.com/RayPackageService"
+     Integration__PackageStore__Endpoint="https://packages.packagestore.com/RayPackageService"
      Integration__PackageStore__Url="https://packaging.packagestore.com"
      Integration__PackageStore__ParallelProcessing=5
      
@@ -212,10 +212,10 @@ The product can be activated using one of the following methods.
 
 ## Documentation
 
-* [Release notes (PDF)](https://github.com/RaynetEALM/RayManageSoftUEM/blob/main/docs/RayManageSoft_Unified_Endpoint_Manager_2.4_Release_Notes.pdf)
-* [Installation Guide (PDF)](https://github.com/RaynetEALM/RayManageSoftUEM/blob/main/docs/RayManageSoft_Unified_Endpoint_Manager_2.4_Installation_Guide.pdf)
-* [User Guide (PDF)](https://github.com/RaynetEALM/RayManageSoftUEM/blob/main/docs/RayManageSoft_Unified_Endpoint_Manager_2.4_User_Guide.pdf)
-* [Operations Supplement (PDF)](https://github.com/RaynetEALM/RayManageSoftUEM/blob/main/docs/RayManageSoft_Unified_Endpoint_Manager_2.4_Operations_Supplement.pdf)
+* [Release notes (PDF)](https://github.com/RaynetEALM/RayManageSoftUEM/blob/main/docs/RayManageSoft_Unified_Endpoint_Manager_2.5_Release_Notes.pdf)
+* [Installation Guide (PDF)](https://github.com/RaynetEALM/RayManageSoftUEM/blob/main/docs/RayManageSoft_Unified_Endpoint_Manager_2.5_Installation_Guide.pdf)
+* [User Guide (PDF)](https://github.com/RaynetEALM/RayManageSoftUEM/blob/main/docs/RayManageSoft_Unified_Endpoint_Manager_2.5_User_Guide.pdf)
+* [Operations Supplement (PDF)](https://github.com/RaynetEALM/RayManageSoftUEM/blob/main/docs/RayManageSoft_Unified_Endpoint_Manager_2.5_Operations_Supplement.pdf)
 
 ## More information
 
