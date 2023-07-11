@@ -6,7 +6,7 @@ services:
     volumes:
       - sql_data:/var/opt/mssql
     ports:
-      - "1434:1433"
+      - "1433:1433"
     environment: 
       - ACCEPT_EULA=Y
       - SA_PASSWORD=<myPassword>
@@ -47,7 +47,7 @@ services:
       - database
       - minio
       ports:
-        - "81:80"
+        - "80:80"
       restart: always
       networks:
         - app-tier
@@ -60,7 +60,7 @@ services:
       depends_on:
       - frontend
       ports:
-        - "8081:80"
+        - "8080:80"
       restart: always
       networks:
         - app-tier
