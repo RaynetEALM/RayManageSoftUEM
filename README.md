@@ -19,7 +19,7 @@ Currently Microsoft Azure, Amazon S3, and MinIO are the storage hoster which are
 
 * Docker Images for RayManageSoft Unified Endpoint Manager.
   
-* Docker for Windows (on-premise installation)
+* Docker for Linux (on-premise installation)
   
 * Microsoft SQL Server.
 *An instance of MS SQL Server or SQL Server Express must be available and the server must be reachable from the Docker environment.*
@@ -28,8 +28,7 @@ Currently Microsoft Azure, Amazon S3, and MinIO are the storage hoster which are
   
 * A valid RayManageSoft Unified Endpoint Manager license, either in form of an order number or in form of a license file.
 
-**Note:** RayManageSoft Unified Endpoint Manager uses linux docker images. Make sure that Docker has been switched to Linux Containers mode. It is not possible to pull the
-images when running Windows Containers.
+**Note:** RayManageSoft Unified Endpoint Manager uses linux docker images. Make sure that Docker has been switched to Linux Containers mode. It is not possible to pull the images when running Windows Containers.
 
 ### Images
 
@@ -38,7 +37,7 @@ RayManageSoft Unified Endpoint Manager images are available on docker hub:
 * [`https://hub.docker.com/r/raynetgmbh/raymanagesoft-uem-backend`](https://hub.docker.com/r/raynetgmbh/raymanagesoft-uem-backend)
 * [`https://hub.docker.com/r/raynetgmbh/raymanagesoft-uem-frontend`](https://hub.docker.com/r/raynetgmbh/raymanagesoft-uem-frontend)
 
-You can use tags `latest`, `stable` or `2.5` to get the current RMS UEM 2.5. You will find the complete list of tags on the respective Docker Hub page.
+You can use tags `3.0` or `stable` to get the last 3.0 or the last stable version respectively. You will find the complete list of tags on the respective Docker Hub page.
 
 ### Environment variables
 
@@ -82,7 +81,7 @@ Different environment variables are required for other supported set-up types (s
       volumes:
         - sql_data:/var/opt/mssql
       ports:
-        - "1434:1433"
+        - "1433:1433"
       environment: 
         - ACCEPT_EULA=Y
         - SA_PASSWORD=<myPassword>
@@ -123,7 +122,7 @@ Different environment variables are required for other supported set-up types (s
         - database
         - minio
         ports:
-       - "81:80"
+       - "80:80"
         restart: always
         networks:
        - app-tier
@@ -136,7 +135,7 @@ Different environment variables are required for other supported set-up types (s
         depends_on:
         - frontend
         ports:
-       - "8081:80"
+       - "8080:80"
         restart: always
         networks:
        - app-tier
@@ -153,11 +152,11 @@ Different environment variables are required for other supported set-up types (s
 
 ### Default docker environment file
 
-     ConnectionStrings__System="Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;"
-     ConnectionStrings__ResultDatabase="Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;"
+     ConnectionStrings__System="Server=myServerAddress;Database=myDatabase;User Id=myUsername;Password=myPassword;"
+     ConnectionStrings__ResultDatabase="Server=myServerAddress;Database=myDatabase;User Id=myUsername;Password=myPassword;"
      
      BackendConfig__Endpoint="myServerAddress"
-     BackendConfig__Port="8081"
+     BackendConfig__Port="8080"
      BackendConfig__Protocol="http"
      BackendConfig__Authentication="true"
      
@@ -167,7 +166,7 @@ Different environment variables are required for other supported set-up types (s
      StorageConfig__MinIO__SecretKey="Start123"
      StorageConfig__MinIO__SSL="false"
      
-     Integration__PackageStore__Endpoint="https://packages.packagestore.com/RayPackageService"
+     Integration__PackageStore__Endpoint="http://packages.packagestore.com/RayPackageService"
      Integration__PackageStore__Url="https://packaging.packagestore.com"
      Integration__PackageStore__ParallelProcessing=5
      
@@ -176,12 +175,15 @@ Different environment variables are required for other supported set-up types (s
      Integration__Catalog__Timeout = 200000
      Integration__Catalog__MaxAttempts = 3
      Integration__Catalog__DevicesBatchSize = 10
+     Integration__Catalog__VulnerabilityBatchSize = 100
      Integration__Catalog__FingerprintBatchSize = 100
      Integration__Catalog__TotalNumberOfDevices = 0
+     Integration__Catalog__UpdateExistingRecords="false"
      
      Integration__Azure__AzureApiUrl="https://graph.microsoft.com/"
      Integration__Azure__AzureInstance="https://login.microsoftonline.com/{0}"
      
+     DbMaintenanceConfig__UpdateInstallStatesJob="0 0 0/4 1/1 * ?"
      DbMaintenanceConfig__FileStorageCleanupJob="0 0 3 1/1 * ?"
      DbMaintenanceConfig__SystemLogCleanupJob="0 0 4 1/1 * ?"
      DbMaintenanceConfig__ActivityLogCleanupJob="0 0 5 1/1 * ?"
@@ -212,10 +214,10 @@ The product can be activated using one of the following methods.
 
 ## Documentation
 
-* [Release notes (PDF)](https://github.com/RaynetEALM/RayManageSoftUEM/blob/main/docs/RayManageSoft_Unified_Endpoint_Manager_2.5_Release_Notes.pdf)
-* [Installation Guide (PDF)](https://github.com/RaynetEALM/RayManageSoftUEM/blob/main/docs/RayManageSoft_Unified_Endpoint_Manager_2.5_Installation_Guide.pdf)
-* [User Guide (PDF)](https://github.com/RaynetEALM/RayManageSoftUEM/blob/main/docs/RayManageSoft_Unified_Endpoint_Manager_2.5_User_Guide.pdf)
-* [Operations Supplement (PDF)](https://github.com/RaynetEALM/RayManageSoftUEM/blob/main/docs/RayManageSoft_Unified_Endpoint_Manager_2.5_Operations_Supplement.pdf)
+* [Release notes (PDF)](https://github.com/RaynetEALM/RayManageSoftUEM/blob/main/docs/RayManageSoft_Unified_Endpoint_Manager_3.0_Release_Notes.pdf)
+* [Installation Guide (PDF)](https://github.com/RaynetEALM/RayManageSoftUEM/blob/main/docs/RayManageSoft_Unified_Endpoint_Manager_3.0_Installation_Guide.pdf)
+* [User Guide (PDF)](https://github.com/RaynetEALM/RayManageSoftUEM/blob/main/docs/RayManageSoft_Unified_Endpoint_Manager_3.0_User_Guide.pdf)
+* [Operations Supplement (PDF)](https://github.com/RaynetEALM/RayManageSoftUEM/blob/main/docs/RayManageSoft_Unified_Endpoint_Manager_3.0_Operations_Supplement.pdf)
 
 ## More information
 
