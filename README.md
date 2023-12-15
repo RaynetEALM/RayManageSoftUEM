@@ -37,19 +37,27 @@ RayManageSoft Unified Endpoint Manager images are available on docker hub:
 * [`https://hub.docker.com/r/raynetgmbh/raymanagesoft-uem-backend`](https://hub.docker.com/r/raynetgmbh/raymanagesoft-uem-backend)
 * [`https://hub.docker.com/r/raynetgmbh/raymanagesoft-uem-frontend`](https://hub.docker.com/r/raynetgmbh/raymanagesoft-uem-frontend)
 
-You can use tags `3.0` or `stable` to get the last 3.0 or the last stable version respectively. You will find the complete list of tags on the respective Docker Hub page.
+You can use tags `3.1` or `stable` to get the last 3.1 or the last stable version respectively. You will find the complete list of tags on the respective Docker Hub page.
 
 ### Environment variables
 
 Assuming the default setup with MinIO as a storage provider, the following environment variables are used to set-up the system:
 
+* **TokenManagement__Secret**, **TokenManagement__Issuer**, **TokenManagement__Audience** - Required to create token individual token on the server to be used by the client.
+  
+* **TokenManagement__AccessExpiration = 30** - Expiration time in minutes of access token.
+  
+* **TokenManagement__RefreshExpiration = 720** - Expiration time in minutes of refresh token.
+  
+* **TokenManagement__RememberMeRefreshExpiration = 10080** - Expiration time in minutes of refresh token and "Keep me logged in" checked.
+  
 * **ConnectionStrings__System** - Connection string to the system database
   
-* **ConnectionStrings__ResultDatabase** - Connection string to the database storing the tenant-specific results.
+* **ConnectionStrings__ResultDatabase** - Connection string to the master database where the tenant-specific result databases will be created.
   
-* **BackendConfig__Endpoint**, **BackendConfig__Port**, **BackendConfig__Protocol** - together they form the URL, under which your instance is available. The default settings are fine for a quick setup, but not production ready.
+* **BackendConfig__Endpoint**, **BackendConfig__Port**, **BackendConfig__Protocol** - Required to form the URL, under which your backend instance for the clients to be managed is available.
   
-* **BackendConfig__Authentication** - Basic authentication for the managed device to the backend server communication can be deactivated. This is recommended during migration.
+* **BackendConfig__Authentication** - Basic authentication for the managed device to the backend instance. 
   
 * **StorageConfig__Default** - The default hoster for the storage of package files.
   
@@ -59,7 +67,7 @@ Assuming the default setup with MinIO as a storage provider, the following envir
   
 * **StorageConfig__MinIO__SecretKey** - your MinIO secret key (configured during the MinIO setup)
   
-* **StorageConfig__MinIO__SSL** - a boolean value indictating whether the MinIO server requires/uses a https connection or not (the usage of an https connection is recommended).
+* **StorageConfig__MinIO__SSL** - a boolean value indictating whether the MinIO server requires/uses a https connection or not (configured during the MinIO setup).
 
 Different environment variables are required for other supported set-up types (see installation guide for more information).
 
@@ -77,7 +85,7 @@ Different environment variables are required for other supported set-up types (s
      services:
     
      database:
-      image: mcr.microsoft.com/mssql/server:2019-latest
+      image: mcr.microsoft.com/mssql/server:2022-latest
       volumes:
         - sql_data:/var/opt/mssql
       ports:
@@ -152,6 +160,13 @@ Different environment variables are required for other supported set-up types (s
 
 ### Default docker environment file
 
+     TokenManagement__Secret = "mySecret"
+     TokenManagement__Issuer = "myIssuer"
+     TokenManagement__Audience = "myAudience"
+     TokenManagement__AccessExpiration = 30
+     TokenManagement__RefreshExpiration = 720
+     TokenManagement__RememberMeRefreshExpiration = 10080
+     
      ConnectionStrings__System="Server=myServerAddress;Database=myDatabase;User Id=myUsername;Password=myPassword;"
      ConnectionStrings__ResultDatabase="Server=myServerAddress;Database=myDatabase;User Id=myUsername;Password=myPassword;"
      
@@ -185,22 +200,11 @@ Different environment variables are required for other supported set-up types (s
      
      DbMaintenanceConfig__UpdateInstallStatesJob="0 0 0/4 1/1 * ?"
      DbMaintenanceConfig__FileStorageCleanupJob="0 0 3 1/1 * ?"
+     DbMaintenanceConfig__FileStorageCleanupJobAllowRemoval="true"
      DbMaintenanceConfig__SystemLogCleanupJob="0 0 4 1/1 * ?"
      DbMaintenanceConfig__ActivityLogCleanupJob="0 0 5 1/1 * ?"
      DbMaintenanceConfig__DeviceInventoryCleanupJob="0 0 6 1/1 * ?"
 
-## First start
-
-The initial login information to the system are:
-
-* **E-mail**: ``root@raynet.de``
-* **Password**: ``raynet``
-
-After the first login please visit the `Site administration` > `System settings` page. There are a few important checks to be done:
-
-* Ensure that the backend URL, port and protocol defined in the settings page are valid and match the parameters of the backend container. When a local installation is used, the FQDN of the backend will most likely be the same as the web UI, with the only difference in port numbers. Should there be any mismatch, make sure to adjust the values as required.
-* Change the initial password of the root user to something secure, using long sequence of letters, numbers and special characters.
-* Download Managed Device Client from the Devices page and install it on the computers to manage. Once the agent is started, the device will appear in the Devices tab.
 
 ### License Activation
 
@@ -212,14 +216,29 @@ The product can be activated using one of the following methods.
 * By supplying an already created license file (.rswl).
 * By supplying a license string.
 
+## First start
+
+The initial login information to the system are:
+
+* **E-mail**: ``root@raynet.de``
+* **Password**: ``raynet``
+
+After the first login and activating your product, please visit the `Site administration` > `System settings` page. There are a few important steps to be done:
+
+* Ensure that the backend URL, port and protocol defined in the settings page are valid and match the parameters of the backend container. When a local installation is used, the FQDN of the backend will most likely be the same as the web UI, with the only difference in port numbers. Should there be any mismatch, make sure to adjust the values as required.
+* Change the initial password of the root user to something secure, using long sequence of letters, numbers and special characters.
+
 ## Documentation
 
-* [Release notes (PDF)](https://github.com/RaynetEALM/RayManageSoftUEM/blob/main/docs/RayManageSoft_Unified_Endpoint_Manager_3.0_Release_Notes.pdf)
-* [Installation Guide (PDF)](https://github.com/RaynetEALM/RayManageSoftUEM/blob/main/docs/RayManageSoft_Unified_Endpoint_Manager_3.0_Installation_Guide.pdf)
-* [User Guide (PDF)](https://github.com/RaynetEALM/RayManageSoftUEM/blob/main/docs/RayManageSoft_Unified_Endpoint_Manager_3.0_User_Guide.pdf)
-* [Operations Supplement (PDF)](https://github.com/RaynetEALM/RayManageSoftUEM/blob/main/docs/RayManageSoft_Unified_Endpoint_Manager_3.0_Operations_Supplement.pdf)
+* [Release notes](https://docs.raynet.de/raymanagesoft/uem/3.1/release-notes/en/index.html?introduction.htm)
+* [Installation guide](https://docs.raynet.de/raymanagesoft/uem/3.1/installation-guide/en/index.html?introduction.htm)
+* [User guide](https://docs.raynet.de/raymanagesoft/uem/3.1/user-guide/en/index.html?introduction.htm)
+* [Windows agent guide](https://docs.raynet.de/raymanagesoft/uem/3.1/agent-win/en/index.html?get_started_with_raymanagesoft.htm)
+* [macOS agent guide](https://docs.raynet.de/raymanagesoft/uem/3.1/agent-mac/en/index.html?introduction.htm)
+* [Operations supplement](https://docs.raynet.de/raymanagesoft/uem/3.1/operations-supplement/en/index.html?software_licenses.htm)
 
 ## More information
 
 * [Raynet GmbH corporate website](https://raynet.de)
+* [Raynet GmbH support website](https://support.raynet.de/hc/en-us)
 * [Raynet EALM GitHub](https://github.com/raynetEALM)
